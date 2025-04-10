@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{FCE3D6AA-57AD-E13F-04F4-F78EB478B32A}</ProjectGuid>
+    <ProjectGuid>{95DA877A-FEE5-BB19-3689-C45619EEEDB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -59,22 +59,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Rotate.cs" />
-    <Compile Include="Assets\Scripts\InputManager.cs" />
-    <Compile Include="Assets\Scripts\ObjectDestroyer.cs" />
-    <Compile Include="Assets\Scripts\Direction.cs" />
-    <Compile Include="Assets\Scripts\Shooting.cs" />
-    <Compile Include="Assets\Scripts\EnemySpawner.cs" />
-    <Compile Include="Assets\Scripts\Movement.cs" />
-    <Compile Include="Assets\Scripts\Pickup.cs" />
     <Compile Include="Assets\Scripts\WeaponTripleShot.cs" />
-    <Compile Include="Assets\Scripts\MoveConstantly.cs" />
-    <Compile Include="Assets\Scripts\AIMoveAndShoot.cs" />
-    <Compile Include="Assets\Scripts\EnemyMovement.cs" />
-    <Compile Include="Assets\Scripts\WeaponBase.cs" />
+    <Compile Include="Assets\Scripts\Pickup.cs" />
+    <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
-    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\EngineBase.cs" />
+    <Compile Include="Assets\Scripts\MoveConstantly.cs" />
+    <Compile Include="Assets\Scripts\ObjectDestroyer.cs" />
     <Compile Include="Assets\Scripts\WeaponMachineGun.cs" />
+    <Compile Include="Assets\Scripts\Shooting.cs" />
+    <Compile Include="Assets\Scripts\WeaponBase.cs" />
+    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Spawner.cs" />
+    <Compile Include="Assets\Scripts\AIMoveAndShoot.cs" />
+    <Compile Include="Assets\Scripts\EngineBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

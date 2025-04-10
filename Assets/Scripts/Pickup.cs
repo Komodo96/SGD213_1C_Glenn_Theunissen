@@ -39,7 +39,7 @@ public class Pickup : MonoBehaviour
     private void HandlePlayerPickup(GameObject player)
     {
         // get the playerInput from the player
-        PlayerInput playerInput = player.GetComponent<PlayerInput>();
+        InputManager playerInput = player.GetComponent<InputManager>();
         // handle a case where the player doesnt have a PlayerInput
         if (playerInput == null) {
             Debug.LogError("Player doesn't have a PlayerInput component.");

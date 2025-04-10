@@ -5,28 +5,30 @@ using UnityEngine;
 public class AIMoveAndShoot : MonoBehaviour {
 
     // state
-    private Vector2 movementDirection;
+    private Vector2 direction;
 
     // local references
-    private EnemyMovement enemyMovement;
+    private EngineBase engineBase;
     private WeaponBase weapon;
 
-    void Start() {
+    void Start() 
+    {
         // populate our local references
-        enemyMovement = GetComponent<EnemyMovement>();
+        engineBase = GetComponent<EngineBase>();
         weapon = GetComponent<WeaponBase>();
 
         // get a random direction between South-East and South-West
         float x = Random.Range(-0.5f, 0.5f);
         float y = -0.5f;
-        movementDirection = new Vector2(x, y).normalized; // ensure it is normalised
+        direction = new Vector2(x, y).normalized; // ensure it is normalised
     }
 
     // Update is called once per frame
-    void Update () {
-        // move our enemy if we have a EnemyMovement component attached
-        if (enemyMovement != null) {
-            enemyMovement.MoveEnemy(movementDirection);
+    void Update () 
+    {
+        // move our enemy if we have a EngineBase component attached
+        if (engineBase != null) {
+            engineBase.Move(direction);
         }
 
         // shoot if we have a IWeapon component attached
