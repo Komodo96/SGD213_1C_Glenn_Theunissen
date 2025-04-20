@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    //Variable for the movement script that handles the Move function
+    // Variable for the movement script that handles the Move function
     private EngineBase movement;
 
-    //Variable for the Shooting script that handles the Shoot function
-    private Shooting shooting;
-
-    //Variable for the Weapon Base Script
+    // Variable for the Weapon Base Script
+    [SerializeField]
     private WeaponBase weapon;
-    
+
     public WeaponBase Weapon
     {
         get
@@ -26,45 +24,38 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        //Gets the Movement component assigns it to the movement variable
+        // Get the Movement component and assign it to the movement variable
         movement = GetComponent<EngineBase>();
 
-        //Gets the Shooting component and assigns it to the shooting variable
-        shooting = GetComponent<Shooting>();
-
+        // Assign the Weapon component to the weapon variable
         weapon = GetComponent<WeaponBase>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Sets the direction of movement on a horizontal axis based on the input and float value 
+        // Movement input
         float input = Input.GetAxis("Horizontal");
-
-        //The float value of input is multiplied with the Vector 2 right and creates movement i.e. pressing D would make the value 1 and pressing A would make the value -1
         movement.Move(Vector2.right * input);
 
-        //When the Fire button is pressed, call the shooting script and the shoot function
-        if (Input.GetButton ("Fire1"))
+        // Fire weapon if the fire button is pressed
+        if (Input.GetButton("Fire1"))
         {
             if (weapon != null)
-            { 
-                shooting.Shoot();
+            {
+                weapon.Shoot();
             }
         }
     }
 
     /// <summary>
-    /// SwapWeapon handles creating a new WeaponBase component based on the given weaponType. This
-    /// will popluate the newWeapon's controls and remove the existing weapon ready for usage.
+    /// SwapWeapon handles creating a new WeaponBase component based on the given weaponType. 
+    /// This will populate the newWeapon's controls and remove the existing weapon ready for usage.
     /// </summary>
     /// <param name="weaponType">The given weaponType to swap our current weapon to, this is an enum in WeaponBase.cs</param>
     public void SwapWeapon(WeaponType weaponType)
     {
-        // make a new weapon dependent on the weaponType
         WeaponBase newWeapon = null;
         switch (weaponType)
         {
@@ -76,11 +67,19 @@ public class InputManager : MonoBehaviour
                 break;
         }
 
-        // update the data of our newWeapon with that of our current weapon
+        // Update weapon controls (spawn point, bullet prefab)
         newWeapon.UpdateWeaponControls(weapon);
-        // remove the old weapon
+
+        // Dynamically set the object pool (player or enemy pool)
+        if (weaponType == WeaponType.machineGun || weaponType == WeaponType.tripleShot)
+        {
+            newWeapon.SetObjectPool(GameObject.Find("PlayerObjectPooler").GetComponent<ObjectPooler>());
+        }
+
+        // Destroy the old weapon
         Destroy(weapon);
-        // set our current weapon to be the newWeapon
+
+        // Set the new weapon
         weapon = newWeapon;
     }
 }
