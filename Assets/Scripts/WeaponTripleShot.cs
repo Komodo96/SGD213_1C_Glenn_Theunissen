@@ -26,15 +26,15 @@ public class WeaponTripleShot : WeaponBase
             for (int i = 0; i < 3; i++)
             {
                 // Get a bullet from the correct object pool (based on whether the shooter is a player or enemy)
-                GameObject newBullet = objectPool.GetObjectFromPool(isPlayerShooting);  // true for player bullets, false for enemy bullets
+                GameObject newBullet = objectPool.GetObjectFromPool(isPlayerShooting);
 
                 if (newBullet != null)
                 {
                     newBullet.SetActive(true);
                     newBullet.transform.position = bulletSpawnPoint.position;
 
-                    // Slightly adjust direction for triple shot spread
-                    float angle = i * 10f - 10f;  // Spread bullets in an angle
+                    // Shoot bullets at an angle for triple shot spread
+                    float angle = i * 10f - 10f;  
                     // Set the bullet's movement direction (upward for player, downward for enemy)
                     newBullet.GetComponent<MoveConstantly>().Direction =
                     Quaternion.Euler(0, 0, angle) * (isPlayerShooting ? Vector2.up : Vector2.down);

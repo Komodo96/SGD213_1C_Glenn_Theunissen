@@ -1,33 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-//Controls how the enemies move and shoot in game
+//Script for handling how the enemies move and shoot as well as functionality to return them to the... 
+//Object Pool when they leave the screen or are destroyed 
 public class AIMoveAndShoot : MonoBehaviour
 {
     private Vector2 direction;
+
     private EngineBase engineBase;
+
     private WeaponBase weapon;
 
-    // Enemy Object Pooler Reference
     private ObjectPooler enemyPool;
 
-    //Get the Engine Base and Weapon Base components
+    private float lastFiredTime = 0f; //Time since last bullet was fired
+
+    [SerializeField] 
+    private float fireDelay = 1f; // Time between shots
+
     void Start()
     {
         engineBase = GetComponent<EngineBase>();
         weapon = GetComponent<WeaponBase>();
 
-        // Assign enemy object pool dynamically or manually via the inspector. This is necessary as the object poolers cannot be assigned directly to the enemy spaceship and enemy boss prefabs
-        enemyPool = GameObject.Find("EnemyObjectPooler").GetComponent<ObjectPooler>();
+        // Get reference to the enemy pool
+        enemyPool = GameObject.Find("EnemyObjectPooler")?.GetComponent<ObjectPooler>();
+        if (enemyPool == null)
+        {
+            Debug.LogError("Enemy Object Pooler not found!");
+        }
 
-        // Random direction for AI movement
+        // Random movement direction
         float x = Random.Range(-0.5f, 0.5f);
         float y = -0.5f;
         direction = new Vector2(x, y).normalized;
     }
 
-    //If the engineBase component is not empty then Move
     void Update()
     {
         if (engineBase != null)
@@ -35,11 +42,39 @@ public class AIMoveAndShoot : MonoBehaviour
             engineBase.Move(direction);
         }
 
-        // Ensure the AI weapon uses the correct object pooler (enemy pool)
         if (weapon != null && enemyPool != null)
         {
             weapon.SetObjectPool(enemyPool);
-            weapon.Shoot();
+
+            // Fire only if enough time has passed
+            if (Time.time - lastFiredTime > fireDelay)
+            {
+                weapon.Shoot();
+                lastFiredTime = Time.time;
+            }
+        }
+    }
+
+    // Return the enemy to the object pool when they go off-screen
+    void OnBecameInvisible()
+    {
+        ReturnToPool();
+    }
+
+    // Return the enemy to the object pool when they are destroyed
+    void OnDestroy()
+    {
+        ReturnToPool();
+    }
+
+    // Method for returning enemies to the enemy object pool
+    private void ReturnToPool()
+    {
+        if (enemyPool != null)
+        {
+            // Return the enemy object to the pool
+            bool isPlayerEnemy = gameObject.CompareTag("Enemy"); 
+            enemyPool.ReturnObjectToPool(gameObject, isPlayerEnemy);
         }
     }
 }

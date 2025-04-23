@@ -13,10 +13,10 @@ public interface IHealth
     int MaxHealth { get; }
 
     /// <summary>
-    /// TakeDamage handles the functionality for taking damage
+    /// Damage handles the functionality for taking damage
     /// </summary>
     /// <param name="damageAmount">The amount of damage to lose, this value should be positive</param>
-    void TakeDamage(int damageAmount);
+    void Damage(int damageAmount);
 
     /// <summary>
     /// Heal handles the functionality of receiving health
@@ -27,5 +27,5 @@ public interface IHealth
     /// <summary>
     /// Handles all functionality related to when health reaches or goes below zero, should perform all necessary cleanup.
     /// </summary>
-    void Die();
+    void DestroyCharacter();
 }

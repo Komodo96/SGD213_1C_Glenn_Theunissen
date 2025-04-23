@@ -58,24 +58,22 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Rotate.cs" />
+    <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\WeaponTripleShot.cs" />
+    <Compile Include="Assets\Scripts\DamageOnCollision.cs" />
     <Compile Include="Assets\Scripts\Pickup.cs" />
     <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\MoveConstantly.cs" />
-    <Compile Include="Assets\Scripts\ObjectDestroyer.cs" />
+    <Compile Include="Assets\Scripts\DestroyedOnCollision.cs" />
+    <Compile Include="Assets\Scripts\DetectCollisionBase.cs" />
     <Compile Include="Assets\Scripts\WeaponMachineGun.cs" />
     <Compile Include="Assets\Scripts\ObjectPooler.cs" />
+    <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\EngineBase.cs" />
+    <Compile Include="Assets\Scripts\IHealth.cs" />
     <Compile Include="Assets\Scripts\WeaponBase.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Scripts\AIMoveAndShoot.cs" />
-    <Compile Include="Assets\Scripts\DetectCollisionBase.cs" />
-    <Compile Include="Assets\Scripts\DestroyedOnCollision.cs" />
-    <Compile Include="Assets\Scripts\UIManager.cs" />
-    <Compile Include="Assets\Scripts\DamageOnCollision.cs" />
-    <Compile Include="Assets\Scripts\IHealth.cs" />
-    <Compile Include="Assets\Scripts\PlayerHealth.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

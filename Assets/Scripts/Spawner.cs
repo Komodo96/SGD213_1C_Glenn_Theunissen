@@ -1,36 +1,44 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-//used to handle the spawning of enemy spaceships and pickups
+// Used to handle the spawning of enemy spaceships and pickups
 public class Spawner : MonoBehaviour
 {
-    //The object to spawn
-    [SerializeField] private GameObject spawnObject;
+    [Header("Objects To Spawn")]
+    [SerializeField] private GameObject[] spawnObjects; 
 
-    //The amount of time between spawns 
+    //The amount of time in between spawns 
     [SerializeField] private float spawnDelay = 2f;
 
-    //The spawn area
-    private Renderer enemySpawnArea;
+    private Renderer spawnArea;
 
     void Start()
     {
-        enemySpawnArea = GetComponent<Renderer>();
-        enemySpawnArea.enabled = false;
+        spawnArea = GetComponent<Renderer>();
+        if (spawnArea != null) spawnArea.enabled = false;
 
-        // Start spawning enemies or pickups after a delay
-        InvokeRepeating("Spawn", spawnDelay, spawnDelay);
+        // Start spawning objects on a loop
+        InvokeRepeating(nameof(Spawn), spawnDelay, spawnDelay);
     }
 
     void Spawn()
     {
-        // Define spawn area and pick a random point within it
-        float x1 = transform.position.x - enemySpawnArea.bounds.size.x / 2;
-        float x2 = transform.position.x + enemySpawnArea.bounds.size.x / 2;
+        if (spawnObjects.Length == 0)
+        {
+            Debug.LogWarning("No objects assigned to spawn!");
+            return;
+        }
 
+        // Get a random position within spawn area
+        float x1 = transform.position.x - spawnArea.bounds.size.x / 2;
+        float x2 = transform.position.x + spawnArea.bounds.size.x / 2;
         Vector2 spawnPoint = new Vector2(Random.Range(x1, x2), transform.position.y);
 
-        // Spawn the enemy or pickup
-        Instantiate(spawnObject, spawnPoint, Quaternion.identity);
+        // Randomly select one of the available spawn objects
+        int index = Random.Range(0, spawnObjects.Length);
+        GameObject objToSpawn = spawnObjects[index];
+
+        // Spawn it
+        Instantiate(objToSpawn, spawnPoint, Quaternion.identity);
     }
 }
+

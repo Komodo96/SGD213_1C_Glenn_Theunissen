@@ -1,46 +1,69 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-/// Pickup allows the player to change to the triple shot weapon when collided with and tells the player object what weapon to use 
+//Script for handling both the triple shot weapon pickup and the health pickup
 public class Pickup : MonoBehaviour
 {
-    [SerializeField]
+    //Variable for the type of pickup
+    [SerializeField] 
+    private PickupType pickupType;
+
+    //Variable for the type of weapon 
+    [SerializeField] 
     private WeaponType weaponType;
 
-    //When the player collides with the pickup...
-    void OnTriggerEnter2D(Collider2D col)
+    //The amount healed by the health pickup
+    [SerializeField] 
+    private int healAmount = 20;
+
+    //Called when the payer collides with the pickup
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.CompareTag("Player"))
         {
-            GameObject player = col.gameObject;
-            HandlePlayerPickup(player);
+            switch (pickupType)
+            {
+                case PickupType.Weapon:
+                    HandleWeaponPickup(col.gameObject);
+                    break;
+
+                case PickupType.Health:
+                    HandleHealthPickup(col.gameObject);
+                    break;
+            }
+            //Then remove the pickup from the game world
+            Destroy(gameObject);
         }
     }
 
-    /// <summary>
-    /// HandlePlayerPickup handles all of the actions after a player has been collided with.
-    /// It grabs the Weapon component from the player, transfers all information to a
-    /// new Weapon (based on the provided weaponType).
-    /// </summary>
-    /// <param name="player"></param>
-    private void HandlePlayerPickup(GameObject player)
+    //Used when the player collides with a weapon pickup to swap to the triple shot
+    private void HandleWeaponPickup(GameObject player)
     {
-        // get the playerInput from the player
         InputManager playerInput = player.GetComponent<InputManager>();
-        // If the player doesn't have a player input then return
-        if (playerInput == null)
+        if (playerInput != null)
         {
-            Debug.LogError("Player doesn't have a PlayerInput component.");
-            return;
+            playerInput.SwapWeapon(weaponType);
         }
         else
         {
-            // tell the playerInput to SwapWeapon based on our weaponType
-            playerInput.SwapWeapon(weaponType);
+            Debug.LogWarning("Player does not have an InputManager!");
         }
     }
 
+    //Used when the player collides with a health pickup to heal the player
+    private void HandleHealthPickup(GameObject player)
+    {
+        IHealth playerHealth = player.GetComponent<IHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.Heal(healAmount);
+            Debug.Log($"Healed player for {healAmount} HP.");
+        }
+        else
+        {
+            Debug.LogWarning("Player does not have an IHealth component!");
+        }
+    }
 }
 
+public enum PickupType { Weapon, Health }
 public enum WeaponType { machineGun, tripleShot }

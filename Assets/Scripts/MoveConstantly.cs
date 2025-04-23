@@ -6,9 +6,17 @@
 /// </summary>
 public class MoveConstantly : MonoBehaviour
 {
-    [SerializeField] private float acceleration = 100f;   // Acceleration applied to the object
-    [SerializeField] private float initialVelocity = 10f; // Initial speed of the object
-    [SerializeField] private Vector2 direction = new Vector2(0, -1);  // Initial direction to move in
+    // Acceleration applied to the object
+    [SerializeField] 
+    private float acceleration = 100f;
+
+    // Initial speed of the object
+    [SerializeField] 
+    private float initialVelocity = 10f;
+
+    // Initial direction to move in
+    [SerializeField] 
+    private Vector2 direction = new Vector2(0, -1);  
 
     private Rigidbody2D ourRigidbody;
 
@@ -17,7 +25,7 @@ public class MoveConstantly : MonoBehaviour
         get { return direction; }
         set
         {
-            direction = value.magnitude == 1 ? value : value.normalized;  // Normalize direction if not already a unit vector
+            direction = value.magnitude == 1 ? value : value.normalized;  
         }
     }
 
@@ -37,15 +45,14 @@ public class MoveConstantly : MonoBehaviour
     }
 
     /// <summary>
-    /// Deactivates the bullet if it goes out of bounds.
+    /// Returns the bullet to the object pool if it goes out of bounds.
     /// </summary>
     void OnBecameInvisible()
     {
-        // Return the object to the pool when it goes off screen.
         ObjectPooler pool = FindObjectOfType<ObjectPooler>();
         if (pool != null)
         {
-            bool isPlayerBullet = gameObject.CompareTag("PlayerBullet"); // Or any other way to check bullet type
+            bool isPlayerBullet = gameObject.CompareTag("PlayerBullet"); 
             pool.ReturnObjectToPool(gameObject, isPlayerBullet); // Return bullet to the correct pool
         }
     }
